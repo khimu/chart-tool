@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" default-autowire="byName">
+
+	<aop:aspectj-autoproxy />
+
+	<bean id="freeDB"
+		class="com.icsmobile.faadplatform.mongo.manager.CounterDBFactoryBean">
+		<property name="mongo" ref="mongo" />
+		<property name="name" value="topfreeapplications" />
+	</bean>
+			
+	<bean id="paidDB"
+		class="com.icsmobile.faadplatform.mongo.manager.CounterDBFactoryBean">
+		<property name="mongo" ref="mongo" />
+		<property name="name" value="toppaidapplications" />
+	</bean>
+
+	<bean id="freeMongoManager" class="com.icsmobile.faadplatform.mongo.manager.MongoManager">
+		<constructor-arg index="0" ref="freeDB" />
+		<constructor-arg index="1" value="topfreeapplications" />
+	</bean>	
+	
+	<bean id="paidMongoManager" class="com.icsmobile.faadplatform.mongo.manager.MongoManager">
+		<constructor-arg index="0" ref="paidDB" />
+		<constructor-arg index="1" value="toppaidapplications" />
+	</bean>		
+
+	<bean id="mongo" class="com.mongodb.Mongo">
+		<constructor-arg index="0">
+			<list value-type="com.mongodb.ServerAddress">
+				<bean class="com.mongodb.ServerAddress">
+					<constructor-arg index="0" value="${mongo.server.host.one}" />
+					<constructor-arg index="1" value="${mongo.server.port.one}" />
+				</bean>
+				<bean class="com.mongodb.ServerAddress">
+					<constructor-arg index="0" value="${mongo.server.host.two}" />
+					<constructor-arg index="1" value="${mongo.server.port.two}" />
+				</bean>
+				<bean class="com.mongodb.ServerAddress">
+					<constructor-arg index="0" value="${mongo.server.host.three}" />
+					<constructor-arg index="1" value="${mongo.server.port.three}" />
+				</bean>
+			</list>
+		</constructor-arg>
+		<constructor-arg index="1">
+		   <bean class="com.icsm.faadplatform.mongo.util.MongoOptionsBean">
+		    	<property name="connectionsPerHost" value="30"/>
+		    	<property name="threadsAllowedToBlockForConnectionMultiplier" value="10"/>
+		   </bean>
+ 		</constructor-arg>
+	</bean>
+
+	<context:component-scan base-package="com.icsmobile.faadplatform.mongo.manager">
+	</context:component-scan>
+
+</beans>

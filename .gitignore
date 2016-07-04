@@ -1,0 +1,15 @@
+*.class
+
+jdbc-core/prod-data.sql 
+.tomcatplugin
+# Package Files #
+*.jar
+*.war
+*.ear
+*org.eclipse.core.resources.prefs	
+*org.eclipse.jdt.core.prefs		
+*org.eclipse.m2e.core.prefs
+*.settings
+*.project
+*.classpath
+icsm-report.enunciate

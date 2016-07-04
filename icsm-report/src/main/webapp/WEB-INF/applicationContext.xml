@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+  <context:annotation-config/>
+
+  <import resource="classpath:/applicationContext-service.xml"/>
+  <import resource="classpath:/applicationContext.xml"/>
+  <import resource="classpath*:/applicationContext-service.xml"/>
+  <import resource="classpath*:/applicationContext-dao.xml"/>
+  <import resource="classpath*:/applicationContext.xml"/>
+  <import resource="classpath*:/applicationContext-persistance.xml"/>
+  <import resource="classpath:META-INF/cxf/cxf.xml"/>
+  <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+  <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>
+  <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml"/>
+
+  <!-- global handler mapping interceptors -->
+  <util:list id="enunciate-handler-interceptors" xmlns:util="http://www.springframework.org/schema/util">
+  </util:list>
+
+  <bean name="service-bean-interceptors" class="java.util.ArrayList">
+    <qualifier value="enunciate-service-bean-interceptors"/>
+    <constructor-arg>
+      <list>
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean name="enunciate:service:ItunesPaidRssReportService" class="org.codehaus.enunciate.modules.spring_app.ServiceEndpointFactoryBean">
+    <constructor-arg value="com.icsm.service.IItunesPaidRssReportService"/>
+    <property name="defaultImplementationBeanName" value="IItunesPaidRssReportServiceEndpointBean"/>
+    <property name="defaultImplementationClass" value="com.icsm.service.impl.ItunesPaidRssReportService"/>
+    <property name="interceptors" ref="service-bean-interceptors"/>
+  </bean>
+
+  <bean name="enunciate:service:ItunesRssReportService" class="org.codehaus.enunciate.modules.spring_app.ServiceEndpointFactoryBean">
+    <constructor-arg value="com.icsm.service.IItunesRssReportService"/>
+    <property name="defaultImplementationBeanName" value="IItunesRssReportServiceEndpointBean"/>
+    <property name="defaultImplementationClass" value="com.icsm.service.impl.ItunesRssReportService"/>
+    <property name="interceptors" ref="service-bean-interceptors"/>
+  </bean>
+
+  <!-- default, no-op, security checker --> 
+  <bean class="org.codehaus.enunciate.service.DefaultSecurityExceptionChecker"/>
+</beans>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+       default-lazy-init="true">
+
+    <!-- Activates scanning of @Autowired -->
+    <context:annotation-config/>
+
+    <!-- Activates scanning of @Repository and @Service -->
+    <context:component-scan base-package="com.icsm"/>
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.sendgrid.net" />
+		<property name="port" value="587" />
+		<property name="username" value="icsmobile" />
+		<property name="password" value="abl3d4ng3r" />	 
+		<property name="javaMailProperties">
+			<props>
+	           	<prop key="mail.smtp.auth">true</prop>
+	           	<prop key="mail.smtp.starttls.enable">true</prop>
+	       	</props>
+		</property>
+	</bean>	
+
+
+    <!-- Add new DAOs here -->
+
+    <!-- Add new Managers here -->
+</beans>
